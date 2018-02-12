@@ -12,10 +12,10 @@ TBD
 
 ## TODO:
 
-- initialize project
-  - bundler
-  - gitignore
-  - env
-  - testing
+x - initialize project
+  x - bundler
+  x - gitignore
+  x - env
+  x - testing
 - create light model
 - create update loop based on local function
