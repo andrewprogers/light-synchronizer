@@ -13,5 +13,9 @@ TBD
 ## TODO:
 
 - initialize project
+  - bundler
+  - gitignore
+  - env
+  - testing
 - create light model
 - create update loop based on local function
