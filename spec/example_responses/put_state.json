@@ -1,0 +1,19 @@
+[
+	{
+		"error": {
+			"type": 7,
+			"address": "/lights/1/state/hue",
+			"description": "invalid value, -1 }, for parameter, hue"
+		}
+	},
+	{
+		"success": {
+			"/lights/1/state/on": true
+		}
+	},
+	{
+		"success": {
+			"/lights/1/state/bri": 100
+		}
+	}
+]

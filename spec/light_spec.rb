@@ -1,23 +1,23 @@
 require_relative '../lib/light.rb'
 
 describe Light do
-  describe 'class methods' do
-
-  end
+  let(:light_data) { EXAMPLES[:lights]["1"] }
+  let(:light) { Light.new('1', EXAMPLES[:lights]["1"]["state"]) }
+  let(:state) { light_data["state"] }
 
   it "initializes with id and state" do
-    id = 1
-    light_data = EXAMPLES[:lights]['1']
-    state = light_data["state"]
     name = light_data["name"]
 
-    light = Light.new(id, state)
-    light2 = Light.new(id, state, name)
+    light2 = Light.new('1', state, name)
 
     expect(light.class).to eq(Light)
-    expect(light.id).to eq(id)
-    expect(light.state).to eq(state)
+    expect(light.id).to eq('1')
 
     expect(light2.name).to eq(name)
+  end
+
+  it 'initializes with light state' do
+    expect(light.state).to_not eq(state)
+    expect(light.state.class).to eq(Light::State)
   end
 end
