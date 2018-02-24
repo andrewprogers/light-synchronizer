@@ -14,7 +14,7 @@ describe Light do
     expect(light.bridge).to eq(bridge)
   end
 
-  it 'it optionally initializes with a state and name' do
+  it 'optionally initializes with a state and name' do
     light = Light.new(1, bridge, state: state)
     light2 = Light.new(1, bridge, name: 'bob', state: state)
 
@@ -25,21 +25,8 @@ describe Light do
     expect(light2.name).to eq('bob')
   end
 
-  xit "initializes with id, bridge, and name" do
-    light_data = EXAMPLES[:lights]["1"]
-    bridge =
-    name = light_data["name"]
-
-    light2 = Light.new('1', state, name)
-
-    expect(light.class).to eq(Light)
-    expect(light.id).to eq('1')
-
-    expect(light2.name).to eq(name)
-  end
-
   describe 'state updating methods' do
-    describe '#state' do
+    describe '#update' do
       xit 'sends '
     end
   end

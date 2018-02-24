@@ -18,9 +18,10 @@ x - initialize project
   x - env
   x - testing
 - create light model
-  - add relation to a bridge
-    - create bridge object
+  x - add relation to a bridge
+    x - create bridge object
     - add testing for bridge object
+  - attempt to initialize state if not given one
   - add ability to change state
-  
+
 - create update loop based on local function
