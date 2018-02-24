@@ -1,4 +1,5 @@
 require 'pry'
+require 'dotenv'
 
 # Load example data
 EXAMPLES = {}
