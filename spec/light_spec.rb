@@ -49,25 +49,49 @@ describe Light do
     end
   end
 
-  xdescribe '#push' do
+  describe '#send' do
     it 'sends a new state to the light' do
-      VCR.use_cassette('light#push_on') do
+      VCR.use_cassette('light#send_on') do
         # Make a state change and push that change
         light = Light.new('1', bridge).pull
         original_value = light.state.on
-        light.state.on = !original_value
-        light.push
+        light.send(on: !original_value)
 
         # Check that change using a new probe
         light_probe = Light.new('1', bridge).pull
-        expect(light.state.on).to_not eq(original_value)
+        expect(light_probe.state.on).to eq(!original_value)
+      end
+    end
+
+    it 'updates the lights internal state when successful' do
+      VCR.use_cassette('light_send_update') do
+        # Make a state change and push that change
+        light = Light.new('1', bridge).pull
+        original_state = light.state
+        original_value = light.state.on
+        light.send(on: !original_value)
+
+        expect(light.state).to eq(original_state)
+        expect(light.state.on).to eq(!original_value)
+      end
+    end
+
+    it 'doesnt update the lights internal state when unsuccessful' do
+      VCR.use_cassette('light_send_no_update') do
+        # Make a state change and push that change
+        light = Light.new('1', bridge).pull
+        original_value = light.state.on
+        light.send(on: 'turn_off')
+
+        expect(light.state.on).to_not eq('turn_off')
+        expect(light.state.on).to eq(original_value)
       end
     end
 
     it 'returns self' do
-      VCR.use_cassette('light#push_return') do
+      VCR.use_cassette('light#send_return') do
         light = Light.new('1', bridge).pull
-        expect(light.push).to eq(light)
+        expect(light.send({})).to eq(light)
       end
     end
   end

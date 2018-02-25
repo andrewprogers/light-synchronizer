@@ -28,14 +28,16 @@ class Light
     self
   end
 
-  def push
+  def send(options)
     uri = URI("#{@bridge.api_path}/lights/#{@id}/state")
     req = Net::HTTP::Put.new(uri)
-    req.body = state.to_h.to_json
+    req.body = options.to_json
 
     response = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
-    pull
+
+    @state.update(JSON.parse(response.body))
+    self
   end
 end

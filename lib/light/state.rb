@@ -19,8 +19,6 @@ class Light
       @colormode = state_hash["colormode"]
       @mode = state_hash["mode"]
       @reachable = state_hash["reachable"]
-
-      @dirty = true
     end
 
     def update(responses)
