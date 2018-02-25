@@ -51,45 +51,6 @@ describe Light::State do
     end
   end
 
-  describe 'attribute_writers' do
-    before(:each) do
-      state.clean!
-    end
-
-    attributes = {
-      'on' => true,
-      'bri' => 100,
-      'hue' => 8000,
-      'sat' => 150,
-      'effect' => 'yes',
-      'xy' => [1, 2],
-      'ct' => 360,
-      'alert' => 'yes',
-      'colormode' => 'hs',
-      'mode' => 'none',
-      'reachable' => false
-    }
-
-    attributes.each do |attribute, new_val|
-      writer = attribute + '='
-
-      describe '#' + attribute + '=' do
-        it 'updates the attribute value' do
-
-          expect(state.public_send(attribute)).to_not eq(new_val)
-          state.public_send(writer, new_val)
-          expect(state.public_send(attribute)).to eq(new_val)
-        end
-
-        it 'sets the state as dirty' do
-          expect(state.dirty?).to eq(false)
-          state.public_send(writer, new_val)
-          expect(state.dirty?).to eq(true)
-        end
-      end
-    end
-  end
-
   describe '#to_h' do
     it 'creates a hash with all non-nil attributes of the state' do
       state = Light::State.new({

@@ -38,28 +38,6 @@ class Light
       end
     end
 
-    def clean!
-      @dirty = false
-    end
-
-    def dirty?
-      @dirty
-    end
-
-    def on=(value)
-      @on = value
-      @dirty = true
-    end
-
-    def method_missing(m, *args, &block)
-      super unless m.to_s[-1] == '='
-      attribute = m.to_s[0..-2]
-      super unless STATE_ATTRIBUTES.include?(attribute)
-
-      instance_variable_set("@#{attribute}".to_sym, args[0])
-      @dirty = true
-    end
-
     def to_h
       hash = {}
       hash["on"] = @on unless @on.nil?
