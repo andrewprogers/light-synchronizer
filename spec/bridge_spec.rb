@@ -28,4 +28,11 @@ describe Bridge do
       end
     end
   end
+
+  describe '#api_path' do
+    it 'returns base url of the bridge api' do
+      expected = "http://#{bridge.ip}/api/#{bridge.username}"
+      expect(bridge.api_path).to eq(expected)
+    end
+  end
 end

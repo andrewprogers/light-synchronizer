@@ -1,3 +1,5 @@
+require 'net/http'
+
 require_relative 'light/state'
 
 class Light
@@ -12,5 +14,15 @@ class Light
       @state = State.new(options[:state])
     end
     @name = options[:name]
+  end
+
+  def pull
+    uri = URI(@bridge.api_path + '/lights/' + @id)
+    data = Net::HTTP.get(uri)
+    if data["state"].nil?
+      raise StandardError
+    else
+      @state = State.new(data["state"])
+    end
   end
 end

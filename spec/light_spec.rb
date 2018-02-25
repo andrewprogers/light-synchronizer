@@ -6,28 +6,38 @@ describe Light do
   let(:bridge) { Bridge.new(ENV['HUE_BRIDGE_IP'], ENV['HUE_BRIDGE_USERNAME']) }
   let(:state) { EXAMPLES[:lights]['1']["state"] }
 
-  it 'initializes with an id and bridge' do
-    id = 1
-    light = Light.new(id, bridge)
+  describe 'initialization' do
+    it 'initializes with an id and bridge' do
+      id = '1'
+      light = Light.new(id, bridge)
 
-    expect(light.id).to eq(id)
-    expect(light.bridge).to eq(bridge)
+      expect(light.id).to eq(id)
+      expect(light.bridge).to eq(bridge)
+    end
+
+    it 'optionally initializes with a state and name' do
+      light = Light.new('1', bridge, state: state)
+      light2 = Light.new('1', bridge, name: 'bob', state: state)
+
+      expect(light.state.class).to eq(Light::State)
+      expect(light2.state.class).to eq(Light::State)
+
+      expect(light.name.nil?).to eq(true)
+      expect(light2.name).to eq('bob')
+    end
   end
 
-  it 'optionally initializes with a state and name' do
-    light = Light.new(1, bridge, state: state)
-    light2 = Light.new(1, bridge, name: 'bob', state: state)
+  describe '#pull' do
+    it 'retrieves updated light state from bridge' do
+      VCR.use_cassette('light#pull') do
+        false_state = state
+        false_state['bri'] = 0
+        light = Light.new('1', bridge, state: false_state)
 
-    expect(light.state.class).to eq(Light::State)
-    expect(light2.state.class).to eq(Light::State)
-
-    expect(light.name.nil?).to eq(true)
-    expect(light2.name).to eq('bob')
-  end
-
-  describe 'state updating methods' do
-    describe '#update' do
-      xit 'sends '
+        expect(light.state.bri).to eq(0)
+        light.pull
+        expect(light.state.bri).to_not eq(0)
+      end
     end
   end
 end

@@ -14,12 +14,11 @@ class Bridge
     response = Net::HTTP.get(uri)
     lights = JSON.parse(response)
 
-    lights.map do |id, data| 
+    lights.map do |id, data|
       Light.new(id, self, state: data["state"], name: data["name"])
     end
   end
 
-  private
   def api_path
     "http://#{@ip}/api/#{@username}"
   end

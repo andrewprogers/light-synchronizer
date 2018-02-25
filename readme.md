@@ -20,8 +20,9 @@ x - initialize project
 - create light model
   x - add relation to a bridge
     x - create bridge object
-    - add testing for bridge object
-  - attempt to initialize state if not given one
-  - add ability to change state
+    x - add testing for bridge object
+  - sync model with actual light state
+    -get base uri from bridge
+  - put state to light
 
 - create update loop based on local function
