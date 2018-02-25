@@ -50,4 +50,64 @@ describe Light::State do
       expect(state.hue).to eq(initial_value)
     end
   end
+
+  describe 'attribute_writers' do
+    before(:each) do
+      state.clean!
+    end
+
+    attributes = {
+      'on' => true,
+      'bri' => 100,
+      'hue' => 8000,
+      'sat' => 150,
+      'effect' => 'yes',
+      'xy' => [1, 2],
+      'ct' => 360,
+      'alert' => 'yes',
+      'colormode' => 'hs',
+      'mode' => 'none',
+      'reachable' => false
+    }
+
+    attributes.each do |attribute, new_val|
+      writer = attribute + '='
+
+      describe '#' + attribute + '=' do
+        it 'updates the attribute value' do
+
+          expect(state.public_send(attribute)).to_not eq(new_val)
+          state.public_send(writer, new_val)
+          expect(state.public_send(attribute)).to eq(new_val)
+        end
+
+        it 'sets the state as dirty' do
+          expect(state.dirty?).to eq(false)
+          state.public_send(writer, new_val)
+          expect(state.dirty?).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe '#to_h' do
+    it 'creates a hash with all non-nil attributes of the state' do
+      state = Light::State.new({
+        "on" => false,
+        "bri" => 120,
+        "hue" => 2000
+      })
+
+      hash = state.to_h
+      expect(hash.keys.include?('on')).to eq(true)
+      expect(hash.keys.include?('bri')).to eq(true)
+
+      expect(hash.keys.include?('mode')).to eq(false)
+      expect(hash.keys.include?('colormode')).to eq(false)
+
+      expect(hash['on']).to eq(false)
+      expect(hash['bri']).to eq(120)
+      expect(hash['hue']).to eq(2000)
+    end
+  end
 end

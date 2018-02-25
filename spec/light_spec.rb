@@ -1,6 +1,7 @@
 require_relative '../lib/light.rb'
 require_relative '../lib/bridge.rb'
 
+
 describe Light do
   let(:state) { light_data["state"] }
   let(:bridge) { Bridge.new(ENV['HUE_BRIDGE_IP'], ENV['HUE_BRIDGE_USERNAME']) }
@@ -37,6 +38,36 @@ describe Light do
         expect(light.state.bri).to eq(0)
         light.pull
         expect(light.state.bri).to_not eq(0)
+      end
+    end
+
+    it 'returns self' do
+      VCR.use_cassette('light#pull_return') do
+        light = Light.new('1', bridge)
+        expect(light.pull).to eq(light)
+      end
+    end
+  end
+
+  describe '#push' do
+    it 'sends a new state to the light' do
+      VCR.use_cassette('light#push_on') do
+        # Make a state change and push that change
+        light = Light.new('1', bridge).pull
+        original_value = light.state.on
+        light.state.on = !original_value
+        light.push
+
+        # Check that change using a new probe
+        light_probe = Light.new('1', bridge).pull
+        expect(light.state.on).to_not eq(original_value)
+      end
+    end
+
+    it 'returns self' do
+      VCR.use_cassette('light#push_return') do
+        light = Light.new('1', bridge).pull
+        expect(light.push).to eq(light)
       end
     end
   end

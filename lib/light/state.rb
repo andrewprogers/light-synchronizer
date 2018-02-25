@@ -1,5 +1,9 @@
 class Light
   class State
+    STATE_ATTRIBUTES = ['on', 'bri', 'hue', 'sat',
+      'effect', 'xy', 'ct', 'alert', 'colormode',
+      'mode', 'reachable']
+
     attr_reader :on, :bri, :hue, :sat, :effect, :xy, :ct, :alert,
       :colormode, :mode, :reachable
 
@@ -15,6 +19,8 @@ class Light
       @colormode = state_hash["colormode"]
       @mode = state_hash["mode"]
       @reachable = state_hash["reachable"]
+
+      @dirty = true
     end
 
     def update(responses)
@@ -32,5 +38,43 @@ class Light
       end
     end
 
+    def clean!
+      @dirty = false
+    end
+
+    def dirty?
+      @dirty
+    end
+
+    def on=(value)
+      @on = value
+      @dirty = true
+    end
+
+    def method_missing(m, *args, &block)
+      super unless m.to_s[-1] == '='
+      attribute = m.to_s[0..-2]
+      super unless STATE_ATTRIBUTES.include?(attribute)
+
+      instance_variable_set("@#{attribute}".to_sym, args[0])
+      @dirty = true
+    end
+
+    def to_h
+      hash = {}
+      hash["on"] = @on unless @on.nil?
+      hash["bri"] = @bri unless @bri.nil?
+      hash["hue"] = @hue unless @hue.nil?
+      hash["sat"] = @sat unless @sat.nil?
+      hash["effect"] = @effect unless @effect.nil?
+      hash["xy"] =@xy unless @xy.nil?
+      hash["ct"] =@ct unless @ct.nil?
+      hash["alert"] =@alert unless @alert.nil?
+      hash["colormode"] =@colormode unless @colormode.nil?
+      hash["mode"] =@mode unless @mode.nil?
+      hash["reachable"] =@reachable unless @reachable.nil?
+
+      return hash
+    end
   end
 end
