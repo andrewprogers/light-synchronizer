@@ -1,6 +1,8 @@
 require 'net/http'
 require 'json'
 
+require_relative 'light'
+
 class Bridge
   attr_reader :ip, :username, :api_path
 
