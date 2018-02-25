@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.0.0.4/api/r7p834zP8Y7xWfCOkpdYDLUovTyeVHCmjHXsAi4K/lights/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      Expires:
+      - Mon, 1 Aug 2011 09:00:00 GMT
+      Connection:
+      - close
+      Access-Control-Max-Age:
+      - '3600'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, HEAD
+      Access-Control-Allow-Headers:
+      - Content-Type
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"state":{"on":false,"bri":254,"hue":8418,"sat":140,"effect":"none","xy":[0.4573,0.4100],"ct":366,"alert":"none","colormode":"xy","mode":"homeautomation","reachable":true},"swupdate":{"state":"noupdates","lastinstall":"2017-12-28T00:32:06"},"type":"Extended
+        color light","name":"Hue color lamp 1","modelid":"LCT014","manufacturername":"Philips","capabilities":{"streaming":{"renderer":true,"proxy":true}},"uniqueid":"00:17:88:01:02:8e:98:0d-0b","swversion":"1.29.0_r21169","swconfigid":"3027B5DE","productid":"Philips-LCT014-1-A19ECLv4"}'
+    http_version: 
+  recorded_at: Sun, 25 Feb 2018 03:22:52 GMT
+recorded_with: VCR 4.0.0
